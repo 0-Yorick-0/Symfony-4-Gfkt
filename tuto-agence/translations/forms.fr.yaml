@@ -1,0 +1,11 @@
+Title      : Titre
+Rooms      : Pièces
+Bedrooms   : Chambres
+Floor      : Etages
+Price      : Prix
+Heat       : Chauffage
+City       : Ville
+Address    : Adresse
+#ne fonctionne pas,à priori, il vaut mieux éviter la snake case dans les noms de proprieté des entités
+postal_code: CodePostal
+Sold       : Vendu
