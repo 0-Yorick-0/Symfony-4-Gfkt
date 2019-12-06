@@ -9,3 +9,5 @@ Address    : Adresse
 #ne fonctionne pas,à priori, il vaut mieux éviter la snake case dans les noms de proprieté des entités
 postal_code: CodePostal
 Sold       : Vendu
+maxPrice   : prix maximum
+minRooms   : nombre de chambre minimum
