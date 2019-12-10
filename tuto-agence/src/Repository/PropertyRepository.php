@@ -42,6 +42,17 @@ class PropertyRepository extends ServiceEntityRepository
                 ->setParameter('minsurface', $search->getMinSurface())
             ;
         }
+        /**@see https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html#doctrine-query-language */
+        if ($search->getTags()->count() > 0) {
+            $k = 0;
+            foreach ($search->getTags() as $tags) {
+                $k++;
+                $query = $query
+                    ->andWhere(":tag$k MEMBER OF p.tags")
+                    ->setParameter("tag$k", $tags)
+                ;
+            }
+        }
 
         return $query->getQuery();
     }

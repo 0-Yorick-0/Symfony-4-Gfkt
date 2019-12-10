@@ -79,6 +79,7 @@ class PropertyController extends AbstractController
 	 */
 	public function show(Property $property, string $slug): Response
 	{
+		//$property est automatiquement instancié et hydraté par le framework
 		if ($property->getSlug() !== $slug) {
 			return $this->redirectToRoute('property.show', [
 				'id'   => $property->getId(),

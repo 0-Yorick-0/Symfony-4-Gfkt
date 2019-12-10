@@ -31,9 +31,5 @@ class PropertyFixture extends Fixture
     		$manager->persist($property);
     	}
     	$manager->flush();
-        // $product = new Product();
-        // $manager->persist($product);
-
-        $manager->flush();
     }
 }

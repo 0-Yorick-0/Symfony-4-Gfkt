@@ -3,11 +3,13 @@
 namespace App\Form;
 
 use App\Entity\PropertySearch;
+use App\Entity\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class PropertySearchType extends AbstractType
 {
@@ -28,6 +30,14 @@ class PropertySearchType extends AbstractType
                     'placeholder' => 'Surface minimale'
                 ]
             ])
+            ->add('tags', EntityType::class, [
+                'required'     => false,
+                'label'        => false,
+                'class'        => Tag::class,
+                'choice_label' => 'name',
+                'multiple'     => true
+            ])
+            //il est préférable d'éviter de mettre le submit ici, car cela provoquera l'envoi de sa valeur dans la requête, ce qui est chiant à gérer
         ;
     }
 

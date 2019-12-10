@@ -13,7 +13,7 @@ use App\Entity\Property;
 use App\Form\PropertyType;
 
 /**
- * 
+ * @Route("/admin")
  */
 class AdminPropertyController extends AbstractController
 {
@@ -35,7 +35,7 @@ class AdminPropertyController extends AbstractController
 	}
 
 	/**
-	 * @Route("/admin", name="admin.property.index")
+	 * @Route("/", name="admin.property.index")
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
 	public function index()
@@ -45,7 +45,7 @@ class AdminPropertyController extends AbstractController
 	}
 
 	/**
-	 * @Route("admin/property/create", name="admin.property.new")
+	 * @Route("/property/create", name="admin.property.new")
 	 */
 	public function new(Request $request)
 	{
@@ -70,7 +70,7 @@ class AdminPropertyController extends AbstractController
 	}
 
 	/**
-	 * @Route("/admin/property/{id}", name="admin.property.edit", methods="GET|POST")
+	 * @Route("/property/{id}", name="admin.property.edit", methods="GET|POST")
 	 * @param Property $property
 	 * @param Request $request
 	 * @return \Symfony\Component\HttpFoundation\Response
@@ -96,7 +96,7 @@ class AdminPropertyController extends AbstractController
 	}
 
 	/**
-	 * @Route("admin/property/{id}", name="admin.property.delete", methods="DELETE")
+	 * @Route("/property/{id}", name="admin.property.delete", methods="DELETE")
 	 * @param Property $property
 	 * @param Request  $request
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
