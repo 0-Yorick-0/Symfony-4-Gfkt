@@ -8,12 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @see https://symfony.com/doc/current/validation.html
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
- * @see https://symfony.com/doc/current/reference/constraints/UniqueEntity.html
  * @UniqueEntity("title")
+ * @Vich\Uploadable()
+ * 
+ * @see https://symfony.com/doc/current/validation.html
+ * @see https://symfony.com/doc/current/reference/constraints/UniqueEntity.html
  */
 class Property
 {
@@ -27,6 +32,23 @@ class Property
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
+
+    /**
+     * @var File
+     * @Assert\Image(
+     *      mimeTypes="image/jpeg"
+     * )
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty="filename")
+     * mapping permet de savoir dans quel dossier uploader les fichiers (cf vich_uploader.yaml)
+     * fileNameProperty permet de savoir dans quelle valeur sauvegarder le fichier
+     */
+    private $imageFile;
 
     /**
      * @see https://symfony.com/doc/current/reference/constraints/Length.html
@@ -106,6 +128,11 @@ class Property
      * inversedBy définit le propriétaire de la relation Many-To-Many
      */
     private $tags;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
 
     public function __construct()
     {
@@ -313,6 +340,62 @@ class Property
             $this->tags->removeElement($tag);
             $tag->removeProperty($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param null|string $filename
+     * @return Property
+     */
+    public function setFileName(?string $fileName): Property
+    {
+        $this->fileName = $fileName;
+        return $this;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @see https://github.com/dustin10/VichUploaderBundle/blob/master/docs/known_issues.md
+     * 
+     * @param null|File $imageFile
+     * @return Property
+     */
+    public function setImageFile(?File $imageFile): Property
+    {
+        $this->imageFile = $imageFile;
+
+        // Only change the updated af if the file is really uploaded to avoid database updates.
+        // This is needed when the file should be set when loading the entity.
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

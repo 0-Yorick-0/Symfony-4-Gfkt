@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * @see https://symfony.com/doc/current/reference/forms/types/choice.html#example-usage
@@ -31,7 +32,11 @@ class PropertyType extends AbstractType
             ->add('tags', EntityType::class, [
                 'class'        => Tag::class,
                 'choice_label' => 'name',
-                'multiple'     => true
+                'multiple'     => true,
+                'required'     => false
+            ])
+            ->add('imageFile', FileType::class, [
+                'required' => false
             ])
             ->add('city')
             ->add('address')
