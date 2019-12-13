@@ -36,7 +36,8 @@ class PropertyType extends AbstractType
                 'required'     => false
             ])
             ->add('imageFile', FileType::class, [
-                'required' => false
+                'required' => false,
+                'help' => 'Uniquement du jpg/jpeg'
             ])
             ->add('city')
             ->add('address')
